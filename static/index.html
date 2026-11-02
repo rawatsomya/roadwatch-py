@@ -1,72 +1,62 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>RoadWatch AI</title>
-<style>
-:root{--bg:#0d0f14;--card:#171a22;--line:#262b38;--text:#e8eaf0;--mut:#8b93a7;--red:#ff4757;--acc:#4f8cff}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px system-ui,sans-serif}
-.wrap{max-width:1000px;margin:0 auto;padding:28px 18px}
-h1{margin:0 0 4px}h1 span{color:var(--red)}p.sub{color:var(--mut);margin:0 0 24px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:18px}
-#drop{border:2px dashed var(--line);border-radius:12px;padding:40px;text-align:center;cursor:pointer;color:var(--mut)}
-#drop.over,#drop:hover{border-color:var(--acc);color:var(--text)}
-.bar{height:8px;background:var(--line);border-radius:8px;overflow:hidden;margin-top:14px}
-.bar div{height:100%;width:0;background:var(--acc);transition:width .3s}
-video{width:100%;border-radius:10px;background:#000}
-.stats{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:14px}
-.stat{flex:1;min-width:140px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px}
-.stat b{display:block;font-size:24px}.stat small{color:var(--mut)}
-.ev{display:flex;gap:14px;align-items:center;border-top:1px solid var(--line);padding:12px 0}
-.ev img{width:160px;border-radius:8px}.badge{background:var(--red);color:#fff;border-radius:6px;padding:2px 8px;font-size:12px}
-.hide{display:none}button{background:var(--acc);color:#fff;border:0;border-radius:8px;padding:9px 16px;cursor:pointer}
-a{color:var(--acc)}
-</style></head><body><div class="wrap">
-<h1>Road<span>Watch</span> AI</h1>
-<p class="sub">Upload dashcam or CCTV footage. YOLOv8 tracks vehicles and flags probable accidents.</p>
+<title>RoadWatch AI — Accident Detection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head><body>
+<div class="glow g1"></div><div class="glow g2"></div>
 
-<div class="card"><div id="drop">Drop a video here or click to choose<input id="file" type="file" accept="video/*" hidden></div>
-<div id="prog" class="hide"><div id="msg">Analyzing…</div><div class="bar"><div id="fill"></div></div></div></div>
+<header class="nav">
+  <div class="logo"><span class="dot"></span>RoadWatch<b>AI</b></div>
+  <div class="pill"><i class="live"></i> Model: YOLOv8 · Ready</div>
+</header>
 
-<div id="result" class="card hide">
-  <div class="stats"><div class="stat"><b id="sAcc">0</b><small>Accidents detected</small></div>
-  <div class="stat"><b id="sDur">0s</b><small>Video length</small></div>
-  <div class="stat"><b id="sFr">0</b><small>Frames analyzed</small></div></div>
-  <video id="vid" controls></video>
-  <p><a id="dl" download>Download annotated video</a></p>
-  <h3>Incident log</h3><div id="events"></div>
-</div></div>
-<script>
-const $=id=>document.getElementById(id),drop=$('drop'),file=$('file');
-drop.onclick=()=>file.click();
-drop.ondragover=e=>{e.preventDefault();drop.classList.add('over')};
-drop.ondragleave=()=>drop.classList.remove('over');
-drop.ondrop=e=>{e.preventDefault();drop.classList.remove('over');upload(e.dataTransfer.files[0])};
-file.onchange=()=>upload(file.files[0]);
+<main class="wrap">
+  <section class="hero">
+    <h1>Detect road accidents <span class="grad">with AI</span></h1>
+    <p>Upload dashcam or CCTV footage. We track every vehicle frame by frame and flag collisions in seconds.</p>
+  </section>
 
-async function upload(f){
-  if(!f)return;
-  $('result').classList.add('hide');$('prog').classList.remove('hide');
-  $('msg').textContent='Uploading…';$('fill').style.width='0';
-  const fd=new FormData();fd.append('file',f);
-  const r=await fetch('/api/analyze',{method:'POST',body:fd});
-  if(!r.ok){$('msg').textContent='Error: '+(await r.json()).detail;return}
-  poll((await r.json()).job_id);
-}
-async function poll(id){
-  const j=await (await fetch('/api/jobs/'+id)).json();
-  $('fill').style.width=j.progress+'%';$('msg').textContent='Analyzing… '+j.progress+'%';
-  if(j.status==='processing')return setTimeout(()=>poll(id),1000);
-  if(j.status==='error'){$('msg').textContent='Failed: '+j.error;return}
-  $('prog').classList.add('hide');show(j);
-}
-function show(j){
-  $('result').classList.remove('hide');
-  $('sAcc').textContent=j.events.length;$('sDur').textContent=j.duration+'s';$('sFr').textContent=j.frames;
-  $('vid').src=j.video;$('dl').href=j.video;
-  $('events').innerHTML=j.events.length?j.events.map(e=>`<div class="ev">
-    <img src="${e.snapshot}"><div><span class="badge">ACCIDENT</span>
-    <p>At <b>${e.time}s</b> (frame ${e.frame})<br>Confidence: <b>${Math.round(e.confidence*100)}%</b></p>
-    <button onclick="$('vid').currentTime=${Math.max(0,e.time-1)};$('vid').play()">Jump to moment</button></div></div>`).join('')
-    :'<p style="color:var(--mut)">No accidents detected 🎉</p>';
-}
-</script></body></html>
+  <section id="uploadCard" class="glass">
+    <div id="drop" class="drop">
+      <div class="icon">⬆</div>
+      <h3>Drop your video here</h3>
+      <p>or <u>browse files</u> · MP4, MOV, AVI</p>
+      <input id="file" type="file" accept="video/*" hidden>
+    </div>
+    <div id="prog" class="prog hide">
+      <div class="ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52"/><circle id="arc" cx="60" cy="60" r="52"/></svg><span id="pct">0%</span></div>
+      <div><h3 id="msg">Analyzing…</h3><p id="fname" class="mut"></p>
+      <div class="steps"><span id="s1" class="on">Upload</span><span id="s2">Detect vehicles</span><span id="s3">Find collisions</span><span id="s4">Render</span></div></div>
+    </div>
+  </section>
+
+  <section id="result" class="hide">
+    <div id="banner" class="banner"></div>
+    <div class="stats">
+      <div class="stat"><small>Accidents</small><b id="sAcc">0</b></div>
+      <div class="stat"><small>Video length</small><b id="sDur">0s</b></div>
+      <div class="stat"><small>Frames analyzed</small><b id="sFr">0</b></div>
+      <div class="stat"><small>Top confidence</small><b id="sConf">–</b></div>
+    </div>
+
+    <div class="grid">
+      <div class="glass">
+        <video id="vid" controls></video>
+        <div class="timeline" id="tl"></div>
+        <div class="row"><span class="mut">Red markers = detected incidents</span>
+        <a id="dl" class="btn ghost" download>⬇ Download video</a></div>
+      </div>
+      <div class="glass side">
+        <h3>Incident log</h3>
+        <div id="events"></div>
+      </div>
+    </div>
+    <button class="btn" id="again">Analyze another video</button>
+  </section>
+</main>
+<footer>Built with FastAPI · YOLOv8 · OpenCV</footer>
+<script src="/static/app.js"></script>
+</body></html>

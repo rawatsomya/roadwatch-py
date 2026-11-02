@@ -45,6 +45,7 @@ def job(job_id: str):
 
 app.mount("/outputs", StaticFiles(directory=OUT), name="outputs")
 
+app.mount("/static", StaticFiles(directory=f"{BASE}/static"), name="static")
 
 @app.get("/")
 def index():
