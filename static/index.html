@@ -5,6 +5,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/static/style.css">
+
+<link rel="stylesheet" href="/static/inline-emergency.css">
 </head><body>
 <div class="glow g1"></div><div class="glow g2"></div>
 
@@ -42,7 +44,20 @@
       <div class="stat"><small>Top confidence</small><b id="sConf">–</b></div>
     </div>
 
-    <div class="grid">
+    <section id="rw-inline" class="glass rw-inline hide" aria-live="polite">
+ <div class="rw-heading"><div><span class="rw-kicker">EMERGENCY ASSISTANCE</span><h2>🚨 Accident response</h2></div><span class="rw-demo">DEMO</span></div>
+ <p id="rw-status">Possible incident detected. Review the footage and verify it first.</p>
+ <div id="rw-decision" class="rw-buttons"><button type="button" id="rw-verify" class="btn">✓ Verify accident</button><button type="button" id="rw-dismiss" class="btn ghost">Dismiss</button></div>
+ <div id="rw-contacts" class="hide">
+  <p class="rw-note">Verified by operator. Calls open your phone app; no calls are placed automatically.</p>
+  <label for="rw-ambulance-number">Ambulance contact number</label><input id="rw-ambulance-number" type="tel" placeholder="Enter approved ambulance number" autocomplete="off">
+  <a id="rw-ambulance-call" class="rw-call rw-disabled" aria-disabled="true">📞 Call ambulance</a>
+  <label for="rw-doctor-number">Doctor / hospital contact number</label><input id="rw-doctor-number" type="tel" placeholder="Enter doctor's contact number" autocomplete="off">
+  <a id="rw-doctor-call" class="rw-call rw-disabled" aria-disabled="true">🩺 Talk to doctor</a>
+  <div class="rw-chat"><h3>Incident communication log</h3><p class="rw-note">Local demo messages only. Not connected to a doctor or hospital.</p><div id="rw-messages" class="rw-messages"></div><form id="rw-message-form"><input id="rw-message" maxlength="2000" placeholder="Write incident update..." required><button type="submit" class="btn">Send</button></form></div>
+ </div>
+</section>
+<div class="grid">
       <div class="glass">
         <video id="vid" controls></video>
         <div class="timeline" id="tl"></div>
@@ -54,9 +69,14 @@
         <div id="events"></div>
       </div>
     </div>
-    <button class="btn" id="again">Analyze another video</button>
+    
+
+
+<button class="btn" id="again">Analyze another video</button>
   </section>
 </main>
 <footer>Built with FastAPI · YOLOv8 · OpenCV</footer>
 <script src="/static/app.js"></script>
+
+<script src="/static/inline-emergency.js"></script>
 </body></html>

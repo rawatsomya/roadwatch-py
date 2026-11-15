@@ -1,0 +1,13 @@
+.rw-inline{border-color:rgba(255,77,94,.4)!important;background:rgba(255,77,94,.065)!important}
+.rw-heading{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.rw-heading h2{margin:2px 0 8px;font-size:22px}.rw-kicker{font-size:11px;color:#ff9aa3;letter-spacing:2px;font-weight:800}
+.rw-demo{font-size:10px;border:1px solid #ff8d98;border-radius:30px;padding:3px 9px;color:#ff8d98}
+#rw-status{color:#d9dfeb;margin:8px 0 15px}.rw-buttons{display:flex;gap:10px;flex-wrap:wrap}
+.rw-inline label{display:block;margin:12px 0 5px;color:#c5cce0;font-size:13px}
+.rw-inline input{background:#151b2b;border:1px solid #38415a;border-radius:10px;padding:12px;color:#fff;width:100%;font:inherit}
+.rw-inline input:focus{outline:2px solid #6c8cff}.rw-call{display:block;text-align:center;background:linear-gradient(120deg,#ed495d,#b72852);padding:12px;margin:8px 0;border-radius:12px;text-decoration:none;color:white;font-weight:700}
+.rw-disabled{opacity:.4;pointer-events:none}.rw-note{color:#aab4c7;font-size:12px;margin:6px 0}
+.rw-chat{border-top:1px solid #38415a;margin-top:18px;padding-top:12px}.rw-chat h3{margin:0}
+.rw-messages{background:#101522;border:1px solid #38415a;border-radius:10px;min-height:80px;max-height:170px;overflow-y:auto;margin:10px 0;padding:10px}
+.rw-messages p{margin:0 0 8px;overflow-wrap:anywhere;font-size:13px}
+#rw-message-form{display:flex;gap:8px}#rw-message-form input{flex:1;min-width:0}

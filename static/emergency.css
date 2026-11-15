@@ -1,0 +1,6 @@
+.rw-panel{border:1px solid rgba(255,77,94,.5);padding:22px;border-radius:18px;margin:18px 0;background:rgba(255,77,94,.08)}
+.rw-panel[hidden],.rw-panel [hidden]{display:none!important}
+.rw-panel h2{margin:0 0 8px}.rw-actions{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0}
+.rw-messages{min-height:90px;max-height:230px;overflow:auto;background:rgba(255,255,255,.04);padding:12px;border-radius:10px;margin:12px 0}
+.rw-messages p{margin:5px 0;overflow-wrap:anywhere}
+.rw-panel input,#message{background:#171b28;color:#fff;border:1px solid #555;border-radius:9px;padding:12px;max-width:100%;width:340px}
