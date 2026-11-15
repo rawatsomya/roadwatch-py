@@ -42,7 +42,7 @@ async function poll(id) {
     return setTimeout(() => poll(id), 1000);
   }
   setProgress(100, 'Done!', 4);
-  setTimeout(() => show(j), 400);
+  setTimeout(() => { show(j); window.roadwatchInlineEmergency?.(id, j.events); }, 400);
 }
 
 function seek(t) {
